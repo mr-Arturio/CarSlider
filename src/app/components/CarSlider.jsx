@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { gradients } from "./gradient";
 import Confetti from "react-confetti";
 import { useWindowSize } from "react-use";
@@ -11,30 +11,23 @@ const CarSlider = () => {
   const [celebrate, setCelebrate] = useState(false);
   const { width, height } = useWindowSize();
 
-  const handleDrag = useCallback((event) => {
-    const slider = event.target.closest(".slider");
-    const sliderRect = slider.getBoundingClientRect();
-    let newPosition = event.clientX - sliderRect.left;
-    newPosition = Math.max(0, Math.min(newPosition, sliderRect.width - 100)); // 100 is the width of the car icon
+  const handleSliderChange = (event) => {
+    const newPosition = event.target.value;
+    setPosition(Number(newPosition));
 
-    setPosition(newPosition);
-
-    if (newPosition >= sliderRect.width - 100) {
+    if (newPosition >= 100) {
       setCelebrate(true);
     } else {
       setCelebrate(false);
     }
-  }, []);
+  };
 
-  const calculateValue = (pos, maxPos) => {
-    const maxValue = 100; // Define the maximum value for the slider
-    return Math.round((pos / maxPos) * maxValue);
+  const calculateValue = (pos) => {
+    return Math.round(pos);
   };
 
   // Calculate gradient index based on position
-  const gradientIndex = Math.floor(
-    (position / (window.innerWidth - 100)) * (gradients.length - 1)
-  );
+  const gradientIndex = Math.floor((position / 100) * (gradients.length - 1));
 
   return (
     <>
@@ -44,7 +37,7 @@ const CarSlider = () => {
           height={height}
           numberOfPieces={650}
           gravity={0.03}
-          recycle={false} // Confetti will not automatically reset
+          recycle={false}
         />
       )}
       <div className="flex flex-col items-center h-screen bg-gray-100 p-4">
@@ -64,19 +57,27 @@ const CarSlider = () => {
             <Image src="/IPFicon.svg" alt="Finish Pin" width={75} height={70} />
           </div>
 
+          {/* Traditional Input Slider */}
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={position}
+            onChange={handleSliderChange}
+            className="absolute top-1/2 left-0 right-0 w-full h-full opacity-0 cursor-pointer"
+          />
+
           {/* Car Icon */}
           <div
-            className="absolute -top-3 left-0 transform -translate-y-1/2 cursor-pointer"
-            style={{ transform: `translateX(${position}px)` }}
-            draggable
-            onDrag={handleDrag}
+            className="absolute -top-3 left-0 transform -translate-y-1/2 pointer-events-none"
+            style={{ transform: `translateX(${(position / 100) * (window.innerWidth - 100)}px)` }}
           >
             <Image src="/car.svg" alt="Car" width={100} height={100} />
           </div>
         </div>
 
         <div className="text-xl font-semibold mt-4">
-          Value: {calculateValue(position, window.innerWidth - 100)}
+          Value: {calculateValue(position)}
         </div>
       </div>
     </>
