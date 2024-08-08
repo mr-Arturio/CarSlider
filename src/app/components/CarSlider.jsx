@@ -49,7 +49,7 @@ const CarSlider = () => {
         </div>
 
         {/* Slider */}
-        <div className="relative slider w-full h-10 bg-gradient-to-r from-gray-600 via-gray-500 to-gray-600 rounded-b-lg">
+        <div className="relative w-full h-10 bg-gradient-to-r from-gray-600 via-gray-500 to-gray-600 rounded-b-lg">
           <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-yellow-500 transform -translate-y-1/2" />
 
           {/* Finish Pin Icon */}
@@ -70,7 +70,7 @@ const CarSlider = () => {
           {/* Car Icon */}
           <div
             className="absolute -top-3 left-0 transform -translate-y-1/2 pointer-events-none"
-            style={{ transform: `translateX(${(position / 100) * (window.innerWidth - 100)}px)` }}
+            style={{ transform: `translateX(${(position / 100) * 93}vw)` }} // use vw to match w-screen
           >
             <Image src="/car.svg" alt="Car" width={100} height={100} />
           </div>
