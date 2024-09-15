@@ -1,10 +1,9 @@
-import Image from "next/image";
-import CarSlider from "./components/CarSlider";
+import Header from "./components/Header";
 
 export default function Home() {
   return (
     <div>
-      <CarSlider />
+      <Header />
     </div>
   );
 }

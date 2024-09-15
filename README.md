@@ -8,4 +8,4 @@ When the user uses the slider, the NavBar gradient color changes shades.
 ```npm install react-use``` - to use `useWindowSize` for confetti width settings
 
 ### Demo
-![CarSlider](./public/CarSlider.gif)
+![CarSlider](./public/CarSlider2.gif)
